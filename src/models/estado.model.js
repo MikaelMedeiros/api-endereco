@@ -3,13 +3,13 @@ const mongoose = require('../database/mongo.db');
 const EstadoSchema = new mongoose.Schema({
     nome: {
         type: String,
-        require: true
+        required: [true, 'Não foi informado o nome do estado.']
     },
-    sigla: {
+    abreviacao: {
         type: String,
         unique: true,
-        required: true,
-        upercase: true
+        uppercase: true,
+        required: [true, 'Não foi informada a abreviação do estado.'],
     },
     dataDeCriacao: {
         type: Date,

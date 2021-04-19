@@ -1,63 +1,64 @@
 const express = require('express'); 
 const router = express.Router();
 const Cidade = require('../models/cidade.model');
+const cidadeInexistenteMiddleware = require('../middlewares/cidade-inexistente');
+const bodyCidadeMiddleware = require('../middlewares/body-cidade');
 
 router.get('/', async (req, res) => {
     try {
-        const cidades = await Cidade.find( {} );        
+        const cidades = await Cidade.find();        
+        
         return res.send(cidades);   
     } catch (erro) {
-        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro});
+        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro.message});
     }    
 });
 
-router.post('/', async (req, res) => { 
+router.get('/:id', cidadeInexistenteMiddleware, async (req, res) => {
     try {
-        const { nome } = req.body;
+        const { id } = req.params;
 
-        if(await Cidade.findOne({ nome }))
-            return res.status(400).send({ status: res.statusCode, erro: 'Já existe uma cidade com esse nome.' });    
+        const cidade = await Cidade.findOne({ _id: id});
+        
+        return res.send(cidade);    
+    } catch (erro) {
+        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro.message});
+    }    
+});
 
+router.post('/', bodyCidadeMiddleware, async (req, res) => { 
+    try {
         const cidade = await Cidade.create(req.body);
         
         return res.status(201).send({ cidade });
     }  catch(erro) {
-        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro});
+        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro.message});
     } 
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;        
-        const cidade = await Cidade.findById(id);
 
-        if(!cidade) 
-            return res.status(404).send({ status: res.statusCode, erro: 'Essa cidade não existe.' });    
-        
-        return res.send(cidade);    
-    } catch (erro) {
-        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro});
-    }    
-});
-
-router.put('/:id', async (req, res) => {
-    try {
+router.put('/:id', cidadeInexistenteMiddleware, async (req, res) => {
+    try {        
         const filtro = { _id: req.params.id};
         const cidadeAtualizado = { $set: req.body };
+
         await Cidade.updateOne(filtro, cidadeAtualizado);        
+
         return res.send({ status: res.statusCode, mensagem: 'Cidade atualizada.' });
     } catch (erro) {
-        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro});
+        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro.message});
     }
 });
 
-router.delete('/:id', async (req, res) => {
-    try {
+router.delete('/:id', cidadeInexistenteMiddleware, async (req, res) => {
+    try {    
         const filtro = { _id: req.params.id};              
+
         await Cidade.deleteOne(filtro);
+
         return res.send({ status: res.statusCode, mensagem: 'Cidade removida.' });
     } catch (erro) {
-        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro});
+        return res.status(400).send({status: res.statusCode, mensagem: 'Requisição inválida', erro: erro.message});
     }
 });
 
