@@ -113,7 +113,7 @@ $ npm start
 
 - [x] Cadastro de Estados
 - [x] Cadastro de Cidades
-- [] Validações de cadastro 
+- [x] Validações de cadastro 
 - [] Testes automatizados
 - [] Documentação (openAPI)
 - [] Cache
