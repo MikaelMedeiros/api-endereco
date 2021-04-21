@@ -32,7 +32,7 @@ docker volume create --name=mongo-address
 
 ### Em seguida, suba o mongo db apontado para esse local com o seguinte comando: 
 ```
-docker run --name mongodb -v mongo-address:/data/db -d -p 27017:27017 mongo
+docker run --name mongodbAdress -v mongo-address:/data/db -d -p 27017:27017 mongo
 ```
 
 ### Após subir a imagem, entre no shell do mongo: 
