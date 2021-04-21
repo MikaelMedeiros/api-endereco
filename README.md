@@ -25,14 +25,14 @@
 ### Partindo do princípio que já há um docker configurado na máquina execute o seguinte comando: 
 
 ```
-docker volume create --name=mongo-address
+docker volume create --name=mongo-endereco
 ```
 
 ### Isso irá criar um espaço para que seja utilizado pelo mongoDB.
 
 ### Em seguida, suba o mongo db apontado para esse local com o seguinte comando: 
 ```
-docker run --name mongodbAdress -v mongo-address:/data/db -d -p 27017:27017 mongo
+docker run --name mongodbEndereco -v mongo-endereco:/data/db -d -p 27017:27017 mongo
 ```
 
 ### Após subir a imagem, entre no shell do mongo: 
@@ -59,9 +59,9 @@ db.createUser(
   }
 )
 ```
-### crie um usuário para a aplicação, mas primeiro entre no banco address: 
+### crie um usuário para a aplicação, mas primeiro entre no banco endereco: 
 ```
-use address
+use endereco
 ```
 ### agora sim, crie o usuário:
 ```
@@ -69,11 +69,18 @@ db.createUser(
   {
     user: "enderecouser",
     pwd:  passwordPrompt(), // ou o texto da senha mesmo 
-    roles: [ { role: "readWrite", db: "address" } ]
+    roles: [ { role: "readWrite", db: "endereco" } ]
   }
 )
 ```
 caso use o prompt, logo depois irá pedir para que informe a senha, faça, e então o usuário será criado de acordo com a senha fornecida! Tahdah! :D
+
+### Saia do terminal
+```
+exit
+
+exit
+```
 
 ## Clone este repositório
 ```
@@ -93,6 +100,16 @@ $ npm i
 ```
 DB_CONNECTION=mongodb://<usuario>:<senha>@<host>:<porta>/<nome_do_banco>
 ```
+
+`<usuario>: nome do usuário da aplicação que foi criado anteriormente, nesse caso 'enderecouser'`
+
+`<senha>: senha digitada no prompt`
+
+`<host>: provavelmente será 'localhost'`
+
+`<porta>: o mongo por padrão utiliza a 27071`
+
+`nome do banco: colocamos endereco, na hora do "use endereco"`
 
 ## Execute a aplicação
 ```
