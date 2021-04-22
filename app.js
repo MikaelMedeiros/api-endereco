@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -9,4 +11,9 @@ app.use(cors());
 require('./src/controllers/estado.controller')(app);
 require('./src/controllers/cidade.controller')(app);
 
-app.listen(3000, ( )=> console.log('API: Estou viva!') );
+const options = {
+    key: fs.readFileSync('./certs/key.pem'),
+    cert: fs.readFileSync('./certs/cert.pem')
+};
+
+https.createServer(options, app).listen(3000, ( )=> console.log('API: Estou viva!'));
