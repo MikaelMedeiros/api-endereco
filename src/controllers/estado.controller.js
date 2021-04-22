@@ -5,7 +5,7 @@ const estadoInexistenteMiddleware = require('../middlewares/estado-inexistente')
 
 router.get('/', async (req, res) => {
     try {
-        const estados = await Estado.find();        
+        const estados = await Estado.find().sort({nome: 1});        
 
         return res.send(estados);   
     } catch (erro) {

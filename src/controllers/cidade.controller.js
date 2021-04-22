@@ -6,7 +6,7 @@ const bodyCidadeMiddleware = require('../middlewares/body-cidade');
 
 router.get('/', async (req, res) => {
     try {
-        const cidades = await Cidade.find();        
+        const cidades = await Cidade.find().sort({nome: 1}).populate('estadoId');        
         
         return res.send(cidades);   
     } catch (erro) {

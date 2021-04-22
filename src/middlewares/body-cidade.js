@@ -5,7 +5,6 @@ const Estado = require('../models/estado.model');
 module.exports = async (req, res, next) => {
     try {
         const { estadoId } = req.body;   
-        console.log('estado:', estadoId) ;  
         const { nome } = req.body;
         
         if(!mongoose.Types.ObjectId.isValid(estadoId))
