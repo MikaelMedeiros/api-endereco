@@ -107,15 +107,18 @@ $ npm i
 
 `<host>: provavelmente será 'localhost'`
 
-`<porta>: o mongo por padrão utiliza a 27071`
+`<porta>: o mongo por padrão utiliza a 27017`
 
 `nome do banco: colocamos endereco, na hora do "use endereco"`
 
 Ficaria assim:
 ```
-DB_CONNECTION=mongodb://enderecouser:secretpass@localhost:27071/endereco
+DB_CONNECTION=mongodb://enderecouser:secretpass@localhost:27017/endereco
 ```
-
+Ou para facilitar: 
+```
+echo "DB_CONNECTION=mongodb://enderecouser:secretpass@localhost:27017/endereco" > .env
+```
 ## Execute a aplicação
 ```
 $ npm start
